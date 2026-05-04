@@ -154,3 +154,15 @@ const activeFilter = ref('countries')
 
   </div>
 </template>
+
+// --- 2. FIKTIVE DATEN Anforderung b.e ---
+// Hier simulieren wir eine kleine Datenbank mit CO2-Emissionsdaten von Unternehmen weltweit.
+const rawData = [
+  { id: 1, company: 'EcoEnergy Corp', country: 'Deutschland', emissions: 12.5 },
+  { id: 2, company: 'Global Steel Works', country: 'USA', emissions: 84.2 },
+  { id: 3, company: 'Nordic Trans', country: 'Schweden', emissions: 3.1 },
+  { id: 4, company: 'Asian Manufacturing', country: 'China', emissions: 145.8 },
+  { id: 5, company: 'Bavaria Motors', country: 'Deutschland', emissions: 22.4 },
+  { id: 6, company: 'Desert Oil', country: 'VAE', emissions: 98.0 },
+  { id: 7, company: 'Tech Giant Inc', country: 'USA', emissions: 18.7 },
+]
