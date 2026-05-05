@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 // --- 1. i18n: SPRACHE & SCHRIFTKULTUR ---
 const isRtl = ref(false)
@@ -67,7 +67,7 @@ const searchQuery = ref('')
 const sortKey = ref('country') // Standardmäßig nach Land sortiert
 const sortAsc = ref(true)
 
-// NEU: Diese Funktion wird beim Klick im linken Menü aufgerufen
+// Diese Funktion wird beim Klick im linken Menü aufgerufen
 const setFilter = (filterType) => {
   activeFilter.value = filterType
   searchQuery.value = '' // Suchfeld leeren beim Wechseln
@@ -111,6 +111,18 @@ const processedData = computed(() => {
 
   return result
 })
+// --- 4. SECURITY (Anforderung b.f: XSS-Schutz) ---
+// Vue schützt durch {{ }} bereits standardmäßig vor XSS.
+// Als Proof of Concept bereinigen wir das Suchfeld hier zusätzlich aktiv von potenziellen HTML/Script-Tags.
+watch(searchQuery, (newValue) => {
+  // Entfernt alle spitzen Klammern "<" und ">" sofort bei der Eingabe
+  const sanitized = newValue.replace(/[<>]/g, '')
+  
+  if (newValue !== sanitized) {
+    searchQuery.value = sanitized
+    console.warn('Sicherheitswarnung: Potenzielle XSS-Eingabe wurde blockiert und bereinigt.')
+  }
+})
 </script>
 
 <template>
@@ -119,7 +131,7 @@ const processedData = computed(() => {
     <header class="bg-green-700 text-white shadow-md">
       <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
         <div class="flex items-center space-x-3 rtl:space-x-reverse">
-          <span class="text-3xl" aria-hidden="true">🌍</span>
+          <span class="text-3xl" aria-hidden="true">🌏</span>
           <h1 class="text-2xl font-bold tracking-tight">{{ t.title }}</h1>
         </div>
         <nav class="flex items-center gap-6">
